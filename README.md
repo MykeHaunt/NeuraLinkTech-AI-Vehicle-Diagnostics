@@ -1,4 +1,3 @@
-============================================
 NeuraLinkTech AI Vehicle Diagnostics v4.0.0
 ============================================
 End‑User License Agreement & 
