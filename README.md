@@ -1,8 +1,11 @@
-=================================================================================
+============================================
 NeuraLinkTech AI Vehicle Diagnostics v4.0.0
-End‑User License Agreement and Liability Waiver
+============================================
+End‑User License Agreement & 
+Liability Waiver
+============================================
 Effective Date: 28.02.2025 10:35 P.M.
-=================================================================================
+============================================
 
 IMPORTANT – READ CAREFULLY:
 By installing, accessing, or otherwise using the NeuraLinkTech AI Vehicle Diagnostics software (“Software”), you (“User”) agree to be bound by the terms of this Agreement. If you do not agree with any part of this Agreement, you must immediately cease all use of the Software. This Agreement governs the use of the Software solely for research, development, and closed‑circuit testing purposes. Under no circumstances may the Software be used in public or uncontrolled environments.
