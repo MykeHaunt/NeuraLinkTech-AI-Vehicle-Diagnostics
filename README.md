@@ -1,4 +1,4 @@
-**NeuraLink AI Vehicle Diagnostics System - Comprehensive Technical Documentation**
+**NeuraLink AI Vehicle Diagnostics System**
 
 ----
 
