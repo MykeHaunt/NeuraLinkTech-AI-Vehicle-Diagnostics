@@ -1,6 +1,6 @@
-torch==2.1.2
+torch==2.2.0
 python-can==4.3.0
 RPi.GPIO==0.7.1
-cryptography==42.0.4
+cryptography==44.0.1
 fastapi==0.109.0
 uvicorn==0.27.1
