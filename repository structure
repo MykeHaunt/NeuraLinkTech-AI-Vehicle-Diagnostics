@@ -1,0 +1,12 @@
+NeuraLinkTech-AI-Vehicle-Diagnostics/
+├── neuralink_core.py         # Main system file
+├── atecu_controller.py       # Transmission control
+├── config/
+│   ├── dtc_codes.json        # DTC database
+│   └── raspberry_config.json # RPi specific settings
+├── models/
+│   ├── fuelnet_v3.pt         # Fuel model
+│   └── torque_converter.pt   # Lockup model
+├── requirements.txt          # Dependencies
+└── docs/
+    └── hardware_setup.md     # Connection guide
