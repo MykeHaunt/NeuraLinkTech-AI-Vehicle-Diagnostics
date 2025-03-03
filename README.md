@@ -1,5 +1,5 @@
 ```markdown
-###NeuraLink AI Vehicle Diagnostics System
+NeuraLink AI Vehicle Diagnostics System
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11+-green.svg)](https://www.python.org/)
