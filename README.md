@@ -1,129 +1,194 @@
-### **README.txt - NeuraLink AI Vehicle Diagnostics System**  
+```markdown
+### NeuraLink AI Vehicle Diagnostics System
 
-**Version 4.2.0** | *ISO 21434 Automotive Cybersecurity Certified*
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11+-green.svg)](https://www.python.org/)
+[![Platform Support](https://img.shields.io/badge/Platform-Raspberry%20Pi%7CLinux%7CmacOS%7CWindows-blue)]()
 
----
-
-### **1. System Overview**  
-A multi-layered AI diagnostics platform combining:  
-- **Real-Time CAN Bus Analysis** (500kbps throughput)  
-- **Adaptive Machine Learning** (3-tier model architecture)  
-- **Cross-Platform Execution** (x86_64/ARM/RISC-V support)  
-
-![Architecture Diagram](docs/architecture.png)  
+**Next-Generation Vehicle Diagnostics with Adaptive AI**  
+*ISO 21434 Automotive Cybersecurity Certified | Toyota A340e-Optimized*
 
 ---
 
-### **2. Key Features**  
-| Module | Capabilities | Performance Metrics |  
-|--------|--------------|---------------------|  
-| **Fuel Analysis** | Live consumption tracking, Predictive modeling | 95% prediction accuracy |  
-| **Component Health** | 20+ part monitoring, Wear pattern analysis | ±2% lifespan estimates |  
-| **Diagnostics** | 500+ error codes, Sensor validation | 100ms response time |  
+## 📌 Overview
+
+NeuraLink AI transforms vehicle maintenance through:
+- 🔍 Real-time CAN bus analysis (500kbps throughput)
+- 🧠 Self-learning torque converter lockup strategies
+- ⚡ Predictive failure detection (12+ components monitored)
+- 🔒 Military-grade encryption for all vehicle communications
+
+![System Architecture](docs/architecture.png)
 
 ---
 
-### **3. Installation**  
-**3.1 Requirements**  
-- Python 3.11+  
-- 4GB RAM (8GB recommended for AI models)  
-- CAN interface (MCP2515/Kvaser compatible)  
+## 🚀 Getting Started
 
-**3.2 Quick Start**  
+### Prerequisites
+- Python 3.11+
+- Docker 24.0+
+- CAN interface (MCP2515/Kvaser recommended)
+- 4GB RAM (8GB recommended for AI models)
+
+### Installation
+
+1. **Clone Repository**
 ```bash
-# Clone repository
 git clone https://github.com/MykeHaunt/NeuraLinkTech-AI-Vehicle-Diagnostics
 cd NeuraLinkTech-AI-Vehicle-Diagnostics
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Initialize system
-python -m neuralink init --platform auto
-
-# Start diagnostics
-python -m neuralink monitor --can can0
 ```
 
----
-
-### **4. Configuration**  
-**4.1 Performance Tuning**  
-Edit `config/system.yaml`:  
-```yaml
-ai:  
-  model: embedded          # [desktop|mobile|embedded]  
-  precision: float16       # float32/float16/int8  
-  threads: 4               # 1-16  
-
-hardware:  
-  can_bitrate: 500000      # 125k-1M  
-  poll_rate: 100ms         # 50-1000ms  
-```
-
-**4.2 Security Setup**  
+2. **Run Auto-Installer**
 ```bash
-# Generate encryption keys
-python -m neuralink security generate-keys
+chmod +x setup_neuralink.sh
+./setup_neuralink.sh
+```
 
-# Enable secure boot
-sudo neuralink-secureboot install
+3. **Verify Installation**
+```bash
+python -m neuralink check-system
+# Expected: System ready | Model integrity verified
 ```
 
 ---
 
-### **5. Supported Platforms**  
-| Platform | Verified Hardware | Notes |  
-|----------|-------------------|-------|  
-| **Raspberry Pi 4** | MCP2515 CAN Hat | 64-bit OS required |  
-| **NVIDIA Jetson** | Kvaser Leaf Pro | CUDA acceleration |  
-| **Linux Desktop** | Peak PCAN-USB | Kernel 5.15+ |  
+## 🔧 Configuration
+
+### System Settings (`config/system.yaml`)
+```yaml
+ai:
+  model: embedded            # [desktop|mobile|embedded]
+  precision: float16         # float32/float16/int8
+  training_interval: 1000    # Data points between retraining
+
+hardware:
+  can_bitrate: 500000        # 125k-1M baud
+  poll_rate: 100ms           # Sensor update interval
+  safety:
+    max_temp: 120            # °C shutdown threshold
+```
+
+### Hardware Setup
+1. Connect CAN interface to vehicle OBD-II port
+2. For Raspberry Pi:
+```bash
+sudo ip link set can0 type can bitrate 500000
+sudo ip link set can0 up
+```
+3. Verify connection:
+```bash
+candump can0 -L -ta
+```
 
 ---
 
-### **6. API Integration**  
+## 🖥️ Usage
+
+### Start System
+```bash
+# Production mode
+docker compose up -d
+
+# Development mode
+python -m neuralink start --mode debug
+```
+
+### Access Dashboard
+```
+http://localhost:8080
+```
+![Dashboard Preview](docs/dashboard_preview.png)
+
+### CLI Commands
+```bash
+# Force torque converter retraining
+neuralink retrain-model --model torque_converter
+
+# Export diagnostic report
+neuralink generate-report --format pdf
+
+# Live CAN monitoring
+neuralink monitor-can --filter 0x240:0x7FF
+```
+
+---
+
+## 🛠️ For Developers
+
+### Project Structure
+```
+src/
+├── neuralink/           # Core diagnostics logic
+├── hardware/            # CAN/GPIO interfaces
+└── ai_models/           # Machine learning components
+```
+
+### Contributing
+1. Fork repository
+2. Create feature branch
+3. Submit PR with:
+   - Updated tests
+   - Documentation changes
+   - Signed-off commits
+
+### Testing
+```bash
+# Unit tests
+pytest tests/unit
+
+# Hardware integration tests
+python -m pytest tests/integration --device can0
+```
+
+---
+
+## 🔒 Security
+
+### Model Integrity
+SHA-256 verification during startup:
 ```python
-from neuralink import DiagnosticsClient
-
-client = DiagnosticsClient(api_key="YOUR_KEY")
-vehicle_status = client.get_status(vehicle_id="2JZ_001")
+def verify_model(path):
+    expected = "a1b2c3d4e5f6..."
+    actual = hashlib.sha256(open(path, 'rb').read()).hexdigest()
+    if actual != expected:
+        raise SecurityAlert("Model compromised!")
 ```
 
-**Endpoints**:  
-- `/api/v1/diagnostics` - Real-time vehicle health  
-- `/api/v1/predictions` - Maintenance forecasts  
+### Secure Boot Process
+1. TPM 2.0 measured boot
+2. CAN message signing
+3. Encrypted model storage
 
 ---
 
-### **7. Troubleshooting**  
-**Common Issues**:  
-- **CAN Timeouts**: Verify termination resistors (120Ω)  
-- **Model Errors**: Run `neuralink verify-models`  
-- **Permission Denied**: Add user to `can` group  
-
-**Log Location**:  
-```text
-/var/log/neuralink/
-├── diagnostics.log
-└── can_traces/
-```
+## 📜 License
+GNU GPLv3 - See [LICENSE](LICENSE)  
+*Commercial licenses available for OEMs*
 
 ---
 
-### **8. Support**  
-**Documentation**: [NeuraLink Docs](https://neuralink.tech/docs/v4)  
-**Security Issues**: security@neuralink.tech  
-**Community Support**: [Discord Server](https://discord.gg/neuralink)  
+## ⚠️ Warning
+Unauthorized ECU modification violates:  
+- DMCA 1201 (US)  
+- Vehicle Type Approval regulations (EU)  
+- JASPAR standards (Japan)  
 
 ---
 
-**Licensing**:  
-- Core System: GPLv3  
-- AI Models: Proprietary (NLT-EULA-2024)  
+## Support
+[Documentation](https://neuralink.tech/docs) | 
+[Community Forum](https://forum.neuralink.tech) | 
+[Security Issues](mailto:security@neuralink.tech)
 
-```text
-© 2024 NeuraLink Technologies  
-Toyota Certified Development Partner  
+*© 2024 NeuraLink Technologies - Toyota Certified Development Partner*
 ```
 
-*Warning: Unauthorized ECU modification violates vehicle warranties*
+This README provides comprehensive guidance while maintaining technical precision and security awareness. Key elements include:
+
+1. **Progressive Disclosure**: Simple installation path with advanced options
+2. **Security First**: Multiple verification layers highlighted
+3. **Platform Flexibility**: Clear instructions for different hardware
+4. **Regulatory Compliance**: Explicit warnings about legal requirements
+5. **Developer Focus**: Contribution guidelines and test procedures
+
+For full documentation see [ARCHITECTURE.md](docs/ARCHITECTURE.md) and [HARDWARE_SETUP.md](docs/hardware/SETUP.md).
