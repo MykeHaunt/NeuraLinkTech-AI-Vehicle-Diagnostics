@@ -1,1 +1,13 @@
-1
+```json
+{
+    "interface": "can0",
+    "bitrate": 500000,
+    "sample_point": 0.8,
+    "max_retries": 3,
+    "security": {
+        "message_validation": true,
+        "encryption": "aes-256-cbc",
+        "allowed_ids": ["0x7DF", "0x7E0"]
+    }
+}
+```
