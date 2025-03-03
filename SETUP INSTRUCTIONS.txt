@@ -1,36 +1,64 @@
-**Setup Instructions**  
-1. Clone repository:
+**Key Features**:
+
+1. **Smart Platform Detection**  
+   - Auto-detects Raspberry Pi, Linux, macOS, and WSL2  
+   - Installs platform-specific dependencies  
+   ```bash
+   # Example dependency sets
+   raspberrypi: "python3.11 pip3 git libsocketcan2 can-utils"
+   linux: "python3.11 pip3 git docker.io"
+   ```
+
+2. **Security First**  
+   - SHA-256 model verification  
+   - Secure key generation for system operations  
+   ```bash
+   openssl genpkey -algorithm ED25519 -out /tmp/neuralink.key
+   ```
+
+3. **Hardware Optimization**  
+   - CAN bus configuration for automotive interfaces  
+   ```bash
+   sudo ip link set can0 type can bitrate 500000 triple-sampling on
+   ```
+
+4. **Production-Grade Setup**  
+   - Docker containerization  
+   - Python virtual environment isolation  
+   ```bash
+   python3.11 -m venv .venv
+   pip install -r requirements.txt
+   ```
+
+**Usage**:
 ```bash
-git clone https://github.com/MykeHaunt/NeuraLinkTech-AI-Vehicle-Diagnostics-nextgen
-cd NeuraLinkTech-AI-Vehicle-Diagnostics-nextgen
+# Make executable
+chmod +x setup_neuralink.sh
+
+# Run installation (non-root)
+./setup_neuralink.sh
+
+# Verify operation
+curl -s http://localhost:8080/health | jq
+# {"status":"ok","version":"4.2.0","models":["fuelnet_v4","torque_converter_v2"]}
 ```
 
-2. Install dependencies:
+**Post-Install Checklist**:
+1. Reboot system for hardware permissions  
+2. Connect OBD-II/CAN interface  
+3. Calibrate sensors: `python -m neuralink calibrate`  
+4. Start diagnostic service: `docker compose start neuralink-core`
+
+**Troubleshooting**:
 ```bash
-pip install -r requirements.txt
+# View installation logs
+tail -f neuralink_install.log
+
+# Reset CAN interface
+sudo ip link set can0 down && sudo ip link set can0 up
+
+# Verify security keys
+sudo ls -la /etc/neuralink/secure
 ```
 
-3. Configure hardware:
-```bash
-./scripts/setup_can.sh --profile a340e --bitrate 500000
-```
-
-4. Start system:
-```bash
-python -m neuralink start --mode production
-```
-
-**Feature Matrix**  
-| Component | Next-Gen Features |
-|-----------|-------------------|
-| **ATECU** | Adaptive shift patterns, Real-time temp monitoring, AI lockup strategy |
-| **AI Core** | Continual learning, Model encryption, Edge deployment |
-| **Security** | Secure boot, CAN message signing, TPM 2.0 integration |
-| **Interface** | Web dashboard, Voice control, Augmented reality overlay |
-
-**Documentation**  
-- [System Architecture](docs/ARCHITECTURE.md)  
-- [A340e Integration Guide](docs/hardware/A340e_INTEGRATION.md)  
-- [Security Protocol](docs/COMPLIANCE/SECURITY.md)  
-
-This architecture provides a modern foundation for automotive AI diagnostics with enterprise-grade security and Toyota-specific optimizations.
+This initializer implements automotive cybersecurity standards while providing a seamless setup experience across supported platforms.
